@@ -132,6 +132,43 @@
       width: 100%;
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .theme-label {
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .theme-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.06);
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+
     .btn-ghost {
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.18);
@@ -165,18 +202,26 @@
     }
 
     @media (max-width: 880px) {
-      header {
-        flex-wrap: wrap;
-        justify-content: center;
-        text-align: center;
-      }
-      main {
-        padding-top: 26px;
-      }
-      .shell {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between; /* keep left/right instead of centering */
+    text-align: left;
+  }
+
+  header nav {
+    flex: 1;
+    justify-content: flex-end;      /* keep menu on the right */
+  }
+
+  main {
+    padding-top: 26px;
+  }
+
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 
     .card {
       border-radius: 26px;
@@ -653,6 +698,63 @@
       text-decoration: none;
       margin: 0 6px;
     }
+
+    /* LIGHT THEME (applied when body has class="light-theme") */
+body.light-theme {
+  background: radial-gradient(circle at top left, #e3f2ff 0, transparent 55%),
+              radial-gradient(circle at bottom right, #f2f6ff 0, transparent 50%),
+              linear-gradient(145deg, #f5f7ff, #e8f0ff);
+  color: #111827;
+}
+
+body.light-theme .card {
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.95), transparent 55%),
+              radial-gradient(circle at bottom right, rgba(203,228,255,0.7), transparent 60%),
+              rgba(255,255,255,0.85);
+  border-color: rgba(148,163,184,0.4);
+  box-shadow:
+    0 18px 40px rgba(148,163,184,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+body.light-theme .logo-text-sub,
+body.light-theme .hero-text,
+body.light-theme .status-text,
+body.light-theme .info-line,
+body.light-theme .support-text,
+body.light-theme .mini-note,
+body.light-theme nav a,
+body.light-theme footer {
+  color: #4b5563;
+}
+
+body.light-theme .field-input {
+  background: rgba(248,250,252,0.9);
+  border-color: rgba(148,163,184,0.7);
+  color: #111827;
+}
+
+body.light-theme .inbox-list {
+  background: rgba(248,250,252,0.95);
+}
+
+body.light-theme .inbox-item-preview {
+  color: #1f2933;
+}
+
+body.light-theme .btn-ghost,
+body.light-theme .inbox-actions button {
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(148,163,184,0.7);
+  color: #111827;
+}
+
+body.light-theme .theme-btn {
+  border-color: rgba(148,163,184,0.8);
+  background: rgba(255,255,255,0.9);
+}
+
+  
   </style>
   <!-- Structured data: WebSite + Organization -->
 <script type="application/ld+json">
@@ -698,6 +800,16 @@
       <a href="/blog/">Blog</a>
       <a href="#faq">FAQ</a>
     </nav>
+    <div class="header-actions">
+  <div class="theme-toggle" id="theme-toggle">
+    <span class="theme-label">Theme</span>
+    <button class="theme-btn" id="theme-btn" type="button">
+      <span id="theme-icon">🌙</span>
+    </button>
+  </div>
+  <a href="#contact" class="btn-ghost">Feedback</a>
+</div>
+
     <a href="#contact" class="btn-ghost">Feedback</a>
   </header>
 
@@ -874,6 +986,8 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    const themeBtn = document.getElementById('theme-btn');
+    const themeIcon = document.getElementById('theme-icon');
     const emailInput = document.getElementById('temp-email');
     const btnGenerate = document.getElementById('btn-generate');
     const btnOpenInbox = document.getElementById('btn-open-inbox');
@@ -1132,6 +1246,33 @@ function startAutoRefreshInbox() {
         loadMessages();
       }
     }, 15000); // 15000 ms = 15 seconds
+    // THEME TOGGLING
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.body.classList.add('light-theme');
+    themeIcon.textContent = '☀️';
+  } else {
+    document.body.classList.remove('light-theme');
+    themeIcon.textContent = '🌙';
+  }
+  localStorage.setItem('templio_theme', theme);
+}
+
+// Load saved theme on startup
+(function initTheme() {
+  const saved = localStorage.getItem('templio_theme') || 'dark';
+  applyTheme(saved);
+})();
+
+// Handle toggle click
+if (themeBtn) {
+  themeBtn.addEventListener('click', () => {
+    const current = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+    const next = current === 'light' ? 'dark' : 'light';
+    applyTheme(next);
+  });
+}
+
   </script>
 </body>
 </html>
