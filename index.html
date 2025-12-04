@@ -62,14 +62,15 @@
     }
 
     header {
-      max-width: 1120px;
-      margin: 18px auto 0;
-      padding: 0 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+     max-width: 1120px;
+     margin: 18px auto 0;
+     padding: 0 18px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between; /* left and right separation */
+     gap: 20px;
     }
+
 
     .logo-wrap {
       display: flex;
@@ -105,7 +106,7 @@
       gap: 14px;
       font-size: 0.86rem;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-end; /* forces nav menu to right */
     }
 
     nav a {
