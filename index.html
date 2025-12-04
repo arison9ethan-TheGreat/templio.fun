@@ -1308,6 +1308,31 @@ if (themeBtn) {
     applyTheme(next);
   });
 }
+    // SIMPLE THEME TOGGLE (dark <-> soft)
+const themeBtn = document.getElementById('theme-btn');
+const themeIcon = document.getElementById('theme-icon');
+
+function applySoftTheme(enabled) {
+  if (enabled) {
+    document.body.classList.add('soft-theme');
+    themeIcon.textContent = '☀️';
+  } else {
+    document.body.classList.remove('soft-theme');
+    themeIcon.textContent = '🌙';
+  }
+  localStorage.setItem('templio_soft_theme', enabled ? '1' : '0');
+}
+
+(function loadTheme() {
+  const saved = localStorage.getItem('templio_soft_theme') === '1';
+  applySoftTheme(saved);
+})();
+
+themeBtn.addEventListener('click', () => {
+  const enabled = !document.body.classList.contains('soft-theme');
+  applySoftTheme(enabled);
+});
+
 
   </script>
 </body>
