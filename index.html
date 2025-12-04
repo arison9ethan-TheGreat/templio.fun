@@ -883,7 +883,20 @@
     const inboxCountBadge = document.getElementById('inbox-count-badge');
 
     let mailToken = null;
-let currentMessageId = null; // track which message is open
+let currentMessageId = null;
+let inboxAutoRefreshTimer = null; // for auto-refresh
+function startAutoRefreshInbox() {
+  if (inboxAutoRefreshTimer) return; // already running
+
+  inboxAutoRefreshTimer = setInterval(() => {
+    const token = mailToken || sessionStorage.getItem('templio_token');
+    const address = sessionStorage.getItem('templio_address');
+    if (token && address) {
+      loadMessages();
+    }
+  }, 10000); // every 10 seconds
+}
+
 
     async function createTempAccount() {
       statusEl.innerHTML = '<strong>Status:</strong> Generating a fresh address for you…';
@@ -969,6 +982,8 @@ let currentMessageId = null; // track which message is open
         }).join('');
 
         statusEl.innerHTML = '<strong>Status:</strong> Inbox updated. Tap any message to read it.';
+        startAutoRefreshInbox();
+
       } catch (err) {
         console.error(err);
         statusEl.innerHTML = '<strong>Status:</strong> Could not refresh inbox. Please try again in a moment.';
@@ -1021,19 +1036,17 @@ let currentMessageId = null; // track which message is open
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    // If the deleted message is currently open, reset viewer
-    if (currentMessageId === id) {
-      currentMessageId = null;
-      inboxViewer.textContent = 'Select a message above to read its full content here.';
-    }
+    // Always reset viewer after delete
+    inboxViewer.textContent = 'Select a message above to read its full content here.';
 
-    // Reload the inbox list
+    // Reload inbox list
     await loadMessages();
   } catch (err) {
     console.error(err);
     statusEl.innerHTML = '<strong>Status:</strong> Could not delete message. Please try again.';
   }
 }
+
 
 
     btnGenerate.addEventListener('click', createTempAccount);
