@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Templio – Free Temporary Email for Safer Signups</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Templio lets you generate free temporary email addresses for quick, safe signups and spam-free browsing. No registration, no cost." />
+  <meta name="description" content="Templio – An inbox for a moment. Generate free temporary email addresses for quick, safe signups and spam-free browsing. No registration, no cost." />
 
   <!-- Favicon & logo (you will upload these to /assets/) -->
   <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
@@ -12,7 +12,7 @@
 
   <!-- Open Graph basic -->
   <meta property="og:title" content="Templio – Free Temporary Email" />
-  <meta property="og:description" content="Generate disposable email addresses in seconds. Protect your real inbox from spam." />
+  <meta property="og:description" content="Templio – An Inbox for a Moment. Generate disposable email addresses in seconds to protect your real inbox from spam." />
   <meta property="og:image" content="https://templio.fun/assets/templio-logo.png" />
   <meta property="og:url" content="https://templio.fun/" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -28,6 +28,7 @@
       --text-main: #f8fbff;
       --text-muted: #9eb3d8;
       --success: #48e0a4;
+      --danger: #ff6b81;
     }
 
     * {
@@ -95,8 +96,10 @@
 
     nav {
       display: flex;
-      gap: 18px;
-      font-size: 0.88rem;
+      gap: 14px;
+      font-size: 0.86rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     nav a {
@@ -384,8 +387,25 @@
       font-size: 0.72rem;
     }
 
+    .inbox-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-size: 0.75rem;
+    }
+
+    .inbox-actions button {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.03);
+      padding: 4px 10px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
     .inbox-list {
-      max-height: 230px;
+      max-height: 190px;
       overflow: auto;
       scrollbar-width: thin;
       margin-top: 4px;
@@ -394,11 +414,98 @@
       background: rgba(2, 8, 22, 0.7);
     }
 
+    .inbox-item {
+      padding: 10px 10px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .inbox-item:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .inbox-item-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .inbox-item-subject {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .inbox-item-date {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .inbox-item-from {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .inbox-item-preview {
+      font-size: 0.74rem;
+      color: #c3d5ff;
+    }
+
+    .inbox-delete-btn {
+      margin-top: 6px;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.02);
+      color: var(--danger);
+      padding: 3px 8px;
+      cursor: pointer;
+    }
+
     .inbox-empty {
       font-size: 0.8rem;
       color: var(--text-muted);
       padding: 16px 14px;
       text-align: center;
+    }
+
+    .inbox-viewer {
+      margin-top: 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(3, 10, 26, 0.9);
+      padding: 10px 12px;
+      font-size: 0.78rem;
+      max-height: 210px;
+      overflow: auto;
+    }
+
+    .viewer-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .viewer-subject {
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+
+    .viewer-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .viewer-body {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      white-space: pre-wrap;
+      color: #e5eeff;
     }
 
     .info-line {
@@ -477,7 +584,7 @@
       font-size: 0.78rem;
       color: var(--text-main);
       box-shadow: 0 18px 45px rgba(0,0,0,0.6);
-      display: none; /* JS will toggle */
+      display: none;
       z-index: 50;
     }
 
@@ -549,20 +656,22 @@
       <img src="/assets/templio-logo.png" alt="Templio logo">
       <div>
         <div class="logo-text-main">Templio</div>
-        <div class="logo-text-sub">Temporary email, permanent peace.</div>
+        <div class="logo-text-sub">An Inbox for a Moment.</div>
       </div>
     </div>
     <nav>
-      <a href="#how">How it works</a>
+      <a href="/">Home</a>
+      <a href="#generate">Generate Email</a>
+      <a href="#inbox">Inbox Viewer</a>
+      <a href="/blog/">Blog</a>
       <a href="#faq">FAQ</a>
-      <a href="#contact">Contact</a>
     </nav>
-    <a href="#generate" class="btn-ghost">Generate email</a>
+    <a href="#contact" class="btn-ghost">Feedback</a>
   </header>
 
   <main>
     <div class="shell">
-      <!-- Left: hero + generator -->
+      <!-- Left: hero + generator + inbox -->
       <section class="card">
         <div class="card-inner">
           <div class="pill">
@@ -574,16 +683,17 @@
             to keep your real inbox clean.
           </h1>
           <p class="hero-text">
-            Use Templio to sign up on websites without exposing your personal email.
-            Free to use, no login, powered by privacy-focused mail APIs.
+            Templio gives you an inbox for a moment – a disposable email you can use
+            for quick signups, trials and downloads without exposing your real address.
           </p>
           <div class="hero-cta" id="generate">
             <button class="btn-primary" id="btn-generate">Generate new email</button>
             <button class="btn-outline" id="btn-open-inbox">Open inbox</button>
+            <button class="btn-outline" id="btn-refresh-inbox">Refresh inbox</button>
           </div>
           <div class="hero-meta">
             <span><span class="dot-soft"></span> No registration required</span>
-            <span><span class="dot-soft"></span> Email lives as long as you need it*</span>
+            <span><span class="dot-soft"></span> Perfect for one-time verification</span>
           </div>
 
           <div class="sep"></div>
@@ -602,15 +712,25 @@
 
           <div class="sep"></div>
 
-          <div class="inbox-header">
-            <div>Inbox preview</div>
+          <div class="inbox-header" id="inbox">
+            <div>Inbox viewer</div>
             <div class="badge-pill" id="inbox-count-badge">0 messages</div>
           </div>
+
+          <div class="inbox-actions">
+            <button id="btn-open-inbox-top">Open / load inbox</button>
+            <button id="btn-refresh-inbox-top">Refresh inbox</button>
+          </div>
+
           <div class="inbox-list" id="inbox-list">
             <div class="inbox-empty">
               No messages yet.<br>
               Use this address to sign up somewhere, then click “Open inbox”.
             </div>
+          </div>
+
+          <div class="inbox-viewer" id="inbox-viewer">
+            Select a message above to read its full content here.
           </div>
 
           <p class="info-line">
@@ -621,14 +741,14 @@
         </div>
       </section>
 
-      <!-- Right: ads, support, how it works -->
+      <!-- Right: ads, support, how it works, feedback -->
       <aside class="card">
         <div class="card-inner">
           <div class="card-small-title">Sponsored banner</div>
           <div class="ad-slot">
             <!-- Monetag banner script goes here -->
             <em>Ad loading…</em><br>
-            (This space will display a ad banner.)
+            (This space will display a banner ad.)
           </div>
 
           <div class="sep"></div>
@@ -636,7 +756,7 @@
           <div class="card-small-title">Keep Templio free</div>
           <p class="support-text">
             Templio is a <strong>free tool</strong> that runs only on ad support.
-            If you find it useful, you can help keep the project online:
+            If you like our work, you can help keep this service online:
           </p>
           <a class="support-btn" href="YOUR_MONETAG_SMARTLINK_HERE" target="_blank" rel="nofollow noopener">
             ❤️ Support this free service
@@ -650,24 +770,37 @@
           <div class="sep"></div>
 
           <div id="how">
-            <div class="card-small-title">How Templio works</div>
+            <div class="card-small-title">How it works</div>
             <ul style="list-style:none; padding-left:0; font-size:0.8rem; color:var(--text-muted); display:grid; gap:6px;">
-              <li>① Generate a temporary email address with one click.</li>
+              <li>① Generate a temporary email address with one click on the Home page.</li>
               <li>② Use it to sign up on any website instead of your real email.</li>
-              <li>③ Check incoming messages in the inbox viewer.</li>
-              <li>④ When you’re done, simply stop using that address.</li>
+              <li>③ Open the Inbox Viewer to read incoming messages.</li>
+              <li>④ When you’re done, simply stop using that address – it’s an inbox for a moment.</li>
             </ul>
           </div>
 
           <div class="sep"></div>
 
           <div id="faq">
-            <div class="card-small-title">About ads & safety</div>
+            <div class="card-small-title">About ads & notifications</div>
             <p class="mini-note">
               Templio uses Monetag as an advertising partner. Monetag is a legitimate ad
-              network used by many publishers, and they scan for fraud and unsafe
-              campaigns. No ad network is perfect, so if you ever notice a misleading or
-              suspicious ad, please report it to us and we will investigate.
+              network used by many publishers. Some formats may show promotional offers.
+              If we enable browser notifications in the future, they will clearly be for
+              <strong>offers from Monetag and occasional Templio service updates</strong>,
+              never spam. You can always turn them off in your browser.
+            </p>
+          </div>
+
+          <div class="sep"></div>
+
+          <div id="contact">
+            <div class="card-small-title">Feedback & improvements</div>
+            <p class="mini-note">
+              We’re building Templio step by step. If you have ideas, find bugs, or want
+              new features, please email us any time:
+              <a href="mailto:support@templio.fun?subject=Templio%20feedback">support@templio.fun</a>.
+              Your feedback directly shapes this project.
             </p>
           </div>
         </div>
@@ -675,23 +808,29 @@
     </div>
   </main>
 
-  <div id="contact"></div>
   <footer>
     © <span id="year"></span> Templio •
+    <a href="/">Home</a> •
+    <a href="/generate.html">Generate Email</a> •
+    <a href="/inbox.html">Inbox Viewer</a> •
+    <a href="/how-it-works.html">How it works</a> •
+    <a href="/faq.html">FAQ</a> •
+    <a href="/blog/">Blog</a> •
     <a href="/privacy.html">Privacy Policy</a> •
-    <a href="/terms.html">Terms</a> •
-    <a href="/cookie.html">Cookie Policy</a>
+    <a href="/terms.html">Terms &amp; Conditions</a> •
+    <a href="/cookie.html">Cookie Policy</a> •
+    <a href="/contact.html">Contact</a>
   </footer>
 
   <!-- Push subscription popup placeholder -->
   <div class="push-popup" id="push-popup">
     <div class="push-popup-header">
-      <div class="push-popup-title">Stay in the loop?</div>
+      <div class="push-popup-title">Offers & updates?</div>
       <button class="push-btn-later" id="push-close" aria-label="Close">×</button>
     </div>
     <div class="push-popup-body">
-      Allow notifications to get gentle updates about Templio and service status.
-      No spam – we hate it as much as you do.
+      Allow notifications to receive occasional partner offers from Monetag and
+      important service updates from Templio. No daily spam, ever.
     </div>
     <div class="push-popup-actions">
       <button class="push-btn-later" id="push-later">Maybe later</button>
@@ -706,9 +845,13 @@
     const emailInput = document.getElementById('temp-email');
     const btnGenerate = document.getElementById('btn-generate');
     const btnOpenInbox = document.getElementById('btn-open-inbox');
+    const btnRefreshInbox = document.getElementById('btn-refresh-inbox');
+    const btnOpenInboxTop = document.getElementById('btn-open-inbox-top');
+    const btnRefreshInboxTop = document.getElementById('btn-refresh-inbox-top');
     const btnCopy = document.getElementById('btn-copy');
     const statusEl = document.getElementById('status');
     const inboxList = document.getElementById('inbox-list');
+    const inboxViewer = document.getElementById('inbox-viewer');
     const inboxCountBadge = document.getElementById('inbox-count-badge');
 
     let mailToken = null;
@@ -745,6 +888,7 @@
         emailInput.value = address;
         statusEl.innerHTML = '<strong>Status:</strong> New address ready. Copy it and use it for your next signup.';
         inboxList.innerHTML = '<div class="inbox-empty">No messages yet. After you sign up somewhere, click “Open inbox”.</div>';
+        inboxViewer.textContent = 'Select a message above to read its full content here.';
         inboxCountBadge.textContent = '0 messages';
       } catch (err) {
         console.error(err);
@@ -765,9 +909,7 @@
 
       try {
         const res = await fetch('https://api.mail.tm/messages', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
         const items = data['hydra:member'] || [];
@@ -785,26 +927,84 @@
           const preview = (msg.intro || '').slice(0, 80);
           const date = new Date(msg.createdAt).toLocaleString();
           return `
-            <div style="padding:10px 10px 9px; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.78rem;">
-              <div style="display:flex; justify-content:space-between; gap:8px; margin-bottom:3px;">
-                <strong style="font-size:0.8rem;">${subject}</strong>
-                <span style="font-size:0.72rem; color:var(--text-muted);">${date}</span>
+            <div class="inbox-item" data-id="${msg.id}">
+              <div class="inbox-item-header">
+                <div class="inbox-item-subject">${subject}</div>
+                <div class="inbox-item-date">${date}</div>
               </div>
-              <div style="font-size:0.74rem; color:var(--text-muted); margin-bottom:2px;">From: ${from}</div>
-              <div style="font-size:0.74rem; color:#c3d5ff;">${preview}</div>
+              <div class="inbox-item-from">From: ${from}</div>
+              <div class="inbox-item-preview">${preview}</div>
+              <button class="inbox-delete-btn" data-id="${msg.id}">Delete</button>
             </div>
           `;
         }).join('');
 
-        statusEl.innerHTML = '<strong>Status:</strong> Inbox updated.';
+        statusEl.innerHTML = '<strong>Status:</strong> Inbox updated. Tap any message to read it.';
       } catch (err) {
         console.error(err);
         statusEl.innerHTML = '<strong>Status:</strong> Could not refresh inbox. Please try again in a moment.';
       }
     }
 
+    async function loadMessageFull(id) {
+      const token = mailToken || sessionStorage.getItem('templio_token');
+      if (!token) return;
+
+      inboxViewer.textContent = 'Loading message…';
+
+      try {
+        const res = await fetch(`https://api.mail.tm/messages/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const msg = await res.json();
+        const from = (msg.from && msg.from.address) || 'Unknown sender';
+        const to = (msg.to && msg.to[0] && msg.to[0].address) || 'Unknown';
+        const subject = msg.subject || '(no subject)';
+        const date = new Date(msg.createdAt).toLocaleString();
+        const body = msg.text || msg.intro || '(No body content)';
+
+        inboxViewer.innerHTML = `
+          <div class="viewer-header">
+            <div class="viewer-subject">${subject}</div>
+            <div class="viewer-meta">${date}</div>
+          </div>
+          <div class="viewer-meta">From: ${from}</div>
+          <div class="viewer-meta">To: ${to}</div>
+          <div class="viewer-body" id="viewer-body"></div>
+        `;
+        const bodyEl = document.getElementById('viewer-body');
+        bodyEl.textContent = body; // safe text (no HTML execution)
+      } catch (err) {
+        console.error(err);
+        inboxViewer.textContent = 'Could not load this message. Please try again.';
+      }
+    }
+
+    async function deleteMessage(id) {
+      const token = mailToken || sessionStorage.getItem('templio_token');
+      if (!token) return;
+      try {
+        await fetch(`https://api.mail.tm/messages/${id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        // If the deleted message is currently viewed, reset viewer
+        const currentBody = document.getElementById('viewer-body');
+        if (currentBody && inboxViewer.innerHTML.includes(id)) {
+          inboxViewer.textContent = 'Select a message above to read its full content here.';
+        }
+        await loadMessages();
+      } catch (err) {
+        console.error(err);
+        statusEl.innerHTML = '<strong>Status:</strong> Could not delete message. Please try again.';
+      }
+    }
+
     btnGenerate.addEventListener('click', createTempAccount);
     btnOpenInbox.addEventListener('click', loadMessages);
+    btnRefreshInbox.addEventListener('click', loadMessages);
+    btnOpenInboxTop.addEventListener('click', loadMessages);
+    btnRefreshInboxTop.addEventListener('click', loadMessages);
 
     btnCopy.addEventListener('click', () => {
       if (!emailInput.value || emailInput.value.startsWith('Click')) return;
@@ -816,6 +1016,21 @@
           btnCopy.textContent = 'Copy';
         }, 1600);
       });
+    });
+
+    // Inbox click handling (view + delete)
+    inboxList.addEventListener('click', (e) => {
+      const deleteBtn = e.target.closest('.inbox-delete-btn');
+      if (deleteBtn) {
+        const id = deleteBtn.getAttribute('data-id');
+        deleteMessage(id);
+        e.stopPropagation();
+        return;
+      }
+      const item = e.target.closest('.inbox-item');
+      if (!item) return;
+      const id = item.getAttribute('data-id');
+      loadMessageFull(id);
     });
 
     // Restore previous session if available
@@ -842,13 +1057,15 @@
       localStorage.setItem('templio_push_hidden', '1');
     }
 
-    pushClose.addEventListener('click', hidePushPopup);
-    pushLater.addEventListener('click', hidePushPopup);
+    if (pushClose) pushClose.addEventListener('click', hidePushPopup);
+    if (pushLater) pushLater.addEventListener('click', hidePushPopup);
 
-    pushAllow.addEventListener('click', () => {
-      // Here you would trigger Monetag push subscription if you enable that format.
-      hidePushPopup();
-    });
+    if (pushAllow) {
+      pushAllow.addEventListener('click', () => {
+        // Here you would trigger Monetag push subscription if you enable that format.
+        hidePushPopup();
+      });
+    }
 
     // Show push popup after a delay so it's not annoying
     setTimeout(showPushPopup, 12000);
