@@ -10,7 +10,7 @@
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
   <!-- Favicon & logo (you will upload these to /assets/) -->
-  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.PNG">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
   <link rel="apple-touch-icon" href="/assets/templio-logo.png">
 
   <!-- Open Graph basic -->
@@ -1118,6 +1118,16 @@ function startAutoRefreshInbox() {
 
     // Show push popup after a delay so it's not annoying
     setTimeout(showPushPopup, 12000);
+  // AUTO-REFRESH INBOX EVERY 15 SECONDS IF AN ADDRESS EXISTS
+    setInterval(() => {
+      const token = sessionStorage.getItem('templio_token');
+      const address = sessionStorage.getItem('templio_address');
+
+      // Only try to refresh if user already has an address
+      if (token && address) {
+        loadMessages();
+      }
+    }, 15000); // 15000 ms = 15 seconds
   </script>
 </body>
 </html>
