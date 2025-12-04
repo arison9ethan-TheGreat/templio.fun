@@ -790,6 +790,43 @@ body.soft-theme .theme-btn {
   background: rgba(255,255,255,0.35);
   border-color: rgba(255,255,255,0.55);
 }
+    /* LIGHT THEME (optimized for readability with existing white text) */
+body.light-theme {
+  background: 
+    radial-gradient(circle at top left, #dfe9f7 0%, transparent 55%),
+    radial-gradient(circle at bottom right, #c7d7f0 0%, transparent 50%),
+    linear-gradient(145deg, #dfe7ff, #d0daf6);
+}
+
+/* cards and panels */
+body.light-theme .card,
+body.light-theme .inbox-list {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+  backdrop-filter: blur(18px);
+}
+
+/* buttons */
+body.light-theme .btn-ghost,
+body.light-theme .inbox-actions button,
+body.light-theme .theme-btn {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.35);
+  color: #ffffff; /* keep white text readable */
+}
+
+/* input fields */
+body.light-theme .field-input {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.30);
+  color: #ffffff;
+}
+
+/* inbox previews */
+body.light-theme .inbox-item-preview {
+  color: #f4f4f4;
+}
+
 
 
   
