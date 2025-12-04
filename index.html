@@ -5,6 +5,9 @@
   <title>Templio – Free Temporary Email for Safer Signups</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Templio – An inbox for a moment. Generate free temporary email addresses for quick, safe signups and spam-free browsing. No registration, no cost." />
+  <!-- Canonical & robots -->
+<link rel="canonical" href="https://templio.fun/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
   <!-- Favicon & logo (you will upload these to /assets/) -->
   <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
@@ -647,6 +650,31 @@
       margin: 0 6px;
     }
   </style>
+  <!-- Structured data: WebSite + Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Templio",
+  "url": "https://templio.fun",
+  "description": "Templio – An Inbox for a Moment. Generate free temporary email addresses for quick, safe signups and spam-free browsing.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://templio.fun/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Templio",
+    "url": "https://templio.fun",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://templio.fun/assets/templio-logo.png"
+    }
+  }
+}
+</script>
+
 </head>
 <body>
   <div class="noise"></div>
@@ -855,6 +883,7 @@
     const inboxCountBadge = document.getElementById('inbox-count-badge');
 
     let mailToken = null;
+let currentMessageId = null; // track which message is open
 
     async function createTempAccount() {
       statusEl.innerHTML = '<strong>Status:</strong> Generating a fresh address for you…';
@@ -951,6 +980,8 @@
       if (!token) return;
 
       inboxViewer.textContent = 'Loading message…';
+      currentMessageId = id;
+
 
       try {
         const res = await fetch(`https://api.mail.tm/messages/${id}`, {
