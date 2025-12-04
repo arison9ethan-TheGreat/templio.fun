@@ -62,23 +62,21 @@
     }
 
     header {
-  max-width: 1120px;
-  margin: 18px auto 0;
-  padding: 0 18px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
+     max-width: 1120px;
+     margin: 18px auto 0;
+     padding: 0 18px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between; /* left and right separation */
+     gap: 20px;
+    }
 
 
     .logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-right: auto; /* pushes everything else to the right */
-}
-
+      display: flex;
+      align-items: center;
+      gap: 14px;
+     }
 
 
     .logo-wrap img {
@@ -104,13 +102,12 @@
     }
 
     nav {
-  display: flex;
-  gap: 16px;
-  font-size: 0.86rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
+      display: flex;
+      gap: 14px;
+      font-size: 0.86rem;
+      flex-wrap: wrap;
+      justify-content: flex-end; /* forces nav menu to right */
+    }
 
     nav a {
       color: var(--text-muted);
@@ -134,45 +131,6 @@
     nav a:hover::after {
       width: 100%;
     }
-
-    .header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-left: 12px; /* spacing between menu and theme/feedback */
-}
-
-
-    .theme-toggle {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
-
-    .theme-label {
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .theme-btn {
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.35);
-      background: rgba(255,255,255,0.06);
-      width: 32px;
-      height: 32px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1rem;
-      padding: 0;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-
 
     .btn-ghost {
       border-radius: 999px;
@@ -207,34 +165,18 @@
     }
 
     @media (max-width: 880px) {
-  header {
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-
-  .logo-wrap {
-    margin-bottom: 6px;
-  }
-
-  nav {
-    flex: 1;
-    justify-content: flex-end;
-  }
-
-  .header-actions {
-    margin-left: 0;
-  }
-
-  main {
-    padding-top: 26px;
-  }
-
-  .shell {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-
+      header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+      main {
+        padding-top: 26px;
+      }
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
 
     .card {
       border-radius: 26px;
@@ -711,48 +653,6 @@
       text-decoration: none;
       margin: 0 6px;
     }
-
-    
-    /* LIGHT THEME (optimized for readability with existing white text) */
-body.light-theme {
-  background: 
-    radial-gradient(circle at top left, #dfe9f7 0%, transparent 55%),
-    radial-gradient(circle at bottom right, #c7d7f0 0%, transparent 50%),
-    linear-gradient(145deg, #dfe7ff, #d0daf6);
-}
-
-/* cards and panels */
-body.light-theme .card,
-body.light-theme .inbox-list {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.25);
-  backdrop-filter: blur(18px);
-}
-
-/* buttons */
-body.light-theme .btn-ghost,
-body.light-theme .inbox-actions button,
-body.light-theme .theme-btn {
-  background: rgba(255,255,255,0.15);
-  border-color: rgba(255,255,255,0.35);
-  color: #ffffff; /* keep white text readable */
-}
-
-/* input fields */
-body.light-theme .field-input {
-  background: rgba(255,255,255,0.10);
-  border-color: rgba(255,255,255,0.30);
-  color: #ffffff;
-}
-
-/* inbox previews */
-body.light-theme .inbox-item-preview {
-  color: #f4f4f4;
-}
-
-
-
-  
   </style>
   <!-- Structured data: WebSite + Organization -->
 <script type="application/ld+json">
@@ -798,15 +698,7 @@ body.light-theme .inbox-item-preview {
       <a href="/blog/">Blog</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <div class="header-actions">
-  <div class="theme-toggle" id="theme-toggle">
-    <span class="theme-label">Theme</span>
-    <button class="theme-btn" id="theme-btn" type="button">
-      <span id="theme-icon">🌙</span>
-    </button>
-  </div>
-  <a href="#contact" class="btn-ghost">Feedback</a>
-</div>
+    <a href="#contact" class="btn-ghost">Feedback</a>
   </header>
 
   <main>
@@ -982,8 +874,6 @@ body.light-theme .inbox-item-preview {
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const themeBtn = document.getElementById('theme-btn');
-    const themeIcon = document.getElementById('theme-icon');
     const emailInput = document.getElementById('temp-email');
     const btnGenerate = document.getElementById('btn-generate');
     const btnOpenInbox = document.getElementById('btn-open-inbox');
@@ -1242,58 +1132,6 @@ function startAutoRefreshInbox() {
         loadMessages();
       }
     }, 15000); // 15000 ms = 15 seconds
-    // THEME TOGGLING
-function applyTheme(theme) {
-  if (theme === 'light') {
-    document.body.classList.add('light-theme');
-    themeIcon.textContent = '☀️';
-  } else {
-    document.body.classList.remove('light-theme');
-    themeIcon.textContent = '🌙';
-  }
-  localStorage.setItem('templio_theme', theme);
-}
-
-// Load saved theme on startup
-(function initTheme() {
-  const saved = localStorage.getItem('templio_theme') || 'dark';
-  applyTheme(saved);
-})();
-
-// Handle toggle click
-if (themeBtn) {
-  themeBtn.addEventListener('click', () => {
-    const current = document.body.classList.contains('light-theme') ? 'light' : 'dark';
-    const next = current === 'light' ? 'dark' : 'light';
-    applyTheme(next);
-  });
-}
-    // SIMPLE THEME TOGGLE (dark <-> soft)
-const themeBtn = document.getElementById('theme-btn');
-const themeIcon = document.getElementById('theme-icon');
-
-function applySoftTheme(enabled) {
-  if (enabled) {
-    document.body.classList.add('soft-theme');
-    themeIcon.textContent = '☀️';
-  } else {
-    document.body.classList.remove('soft-theme');
-    themeIcon.textContent = '🌙';
-  }
-  localStorage.setItem('templio_soft_theme', enabled ? '1' : '0');
-}
-
-(function loadTheme() {
-  const saved = localStorage.getItem('templio_soft_theme') === '1';
-  applySoftTheme(saved);
-})();
-
-themeBtn.addEventListener('click', () => {
-  const enabled = !document.body.classList.contains('soft-theme');
-  applySoftTheme(enabled);
-});
-
-
   </script>
 </body>
 </html>
