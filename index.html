@@ -1012,24 +1012,29 @@ let currentMessageId = null; // track which message is open
     }
 
     async function deleteMessage(id) {
-      const token = mailToken || sessionStorage.getItem('templio_token');
-      if (!token) return;
-      try {
-        await fetch(`https://api.mail.tm/messages/${id}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        // If the deleted message is currently viewed, reset viewer
-        const currentBody = document.getElementById('viewer-body');
-        if (currentBody && inboxViewer.innerHTML.includes(id)) {
-          inboxViewer.textContent = 'Select a message above to read its full content here.';
-        }
-        await loadMessages();
-      } catch (err) {
-        console.error(err);
-        statusEl.innerHTML = '<strong>Status:</strong> Could not delete message. Please try again.';
-      }
+  const token = mailToken || sessionStorage.getItem('templio_token');
+  if (!token) return;
+
+  try {
+    await fetch(`https://api.mail.tm/messages/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    // If the deleted message is currently open, reset viewer
+    if (currentMessageId === id) {
+      currentMessageId = null;
+      inboxViewer.textContent = 'Select a message above to read its full content here.';
     }
+
+    // Reload the inbox list
+    await loadMessages();
+  } catch (err) {
+    console.error(err);
+    statusEl.innerHTML = '<strong>Status:</strong> Could not delete message. Please try again.';
+  }
+}
+
 
     btnGenerate.addEventListener('click', createTempAccount);
     btnOpenInbox.addEventListener('click', loadMessages);
