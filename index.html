@@ -741,6 +741,9 @@
             <div id="status" class="status-text">
               <strong>Status:</strong> Waiting to generate your first address.
             </div>
+            <button id="btn-delete-address" class="btn-outline" style="margin-top:10px;">
+    Delete this address & start fresh
+  </button>
           </div>
 
           <div class="sep"></div>
@@ -874,6 +877,14 @@
   <script>
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
+    // Always start at top on load/refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+});
+
 
     const emailInput = document.getElementById('temp-email');
     const btnGenerate = document.getElementById('btn-generate');
@@ -1051,41 +1062,89 @@ function startAutoRefreshInbox() {
     statusEl.innerHTML = '<strong>Status:</strong> Could not delete message. Please try again.';
   }
 }
+    function deleteCurrentAddress() {
+  // Clear token and address from session
+  sessionStorage.removeItem('templio_token');
+  sessionStorage.removeItem('templio_address');
+  mailToken = null;
+
+  // Reset UI if elements exist
+  if (emailInput) {
+    emailInput.value = 'Click “Generate new email”';
+  }
+  if (statusEl) {
+    statusEl.innerHTML = '<strong>Status:</strong> Address deleted. Generate a new one to continue.';
+  }
+  if (inboxList) {
+    inboxList.innerHTML = '<div class="inbox-empty">Inbox cleared. Generate a new email and load inbox again.</div>';
+  }
+  if (inboxViewer) {
+    inboxViewer.textContent = 'Select a message above to read its full content here.';
+  }
+  if (inboxCountBadge) {
+    inboxCountBadge.textContent = '0 messages';
+  }
+}
 
 
 
-    btnGenerate.addEventListener('click', createTempAccount);
-    btnOpenInbox.addEventListener('click', loadMessages);
-    btnRefreshInbox.addEventListener('click', loadMessages);
-    btnOpenInboxTop.addEventListener('click', loadMessages);
-    btnRefreshInboxTop.addEventListener('click', loadMessages);
 
-    btnCopy.addEventListener('click', () => {
-      if (!emailInput.value || emailInput.value.startsWith('Click')) return;
-      navigator.clipboard.writeText(emailInput.value).then(() => {
-        btnCopy.classList.add('copied');
-        btnCopy.textContent = 'Copied!';
-        setTimeout(() => {
-          btnCopy.classList.remove('copied');
-          btnCopy.textContent = 'Copy';
-        }, 1600);
-      });
+    if (btnGenerate) {
+  btnGenerate.addEventListener('click', createTempAccount);
+}
+
+if (btnOpenInbox) {
+  btnOpenInbox.addEventListener('click', loadMessages);
+}
+
+if (btnRefreshInbox) {
+  btnRefreshInbox.addEventListener('click', loadMessages);
+}
+
+if (btnOpenInboxTop) {
+  btnOpenInboxTop.addEventListener('click', loadMessages);
+}
+
+if (btnRefreshInboxTop) {
+  btnRefreshInboxTop.addEventListener('click', loadMessages);
+}
+
+if (btnCopy) {
+  btnCopy.addEventListener('click', () => {
+    if (!emailInput.value || emailInput.value.startsWith('Click')) return;
+    navigator.clipboard.writeText(emailInput.value).then(() => {
+      btnCopy.classList.add('copied');
+      btnCopy.textContent = 'Copied!';
+      setTimeout(() => {
+        btnCopy.classList.remove('copied');
+        btnCopy.textContent = 'Copy';
+      }, 1600);
     });
+  });
+}
 
-    // Inbox click handling (view + delete)
-    inboxList.addEventListener('click', (e) => {
-      const deleteBtn = e.target.closest('.inbox-delete-btn');
-      if (deleteBtn) {
-        const id = deleteBtn.getAttribute('data-id');
-        deleteMessage(id);
-        e.stopPropagation();
-        return;
-      }
-      const item = e.target.closest('.inbox-item');
-      if (!item) return;
-      const id = item.getAttribute('data-id');
-      loadMessageFull(id);
-    });
+if (inboxList) {
+  inboxList.addEventListener('click', (e) => {
+    const deleteBtn = e.target.closest('.inbox-delete-btn');
+    if (deleteBtn) {
+      const id = deleteBtn.getAttribute('data-id');
+      deleteMessage(id);
+      e.stopPropagation();
+      return;
+    }
+    const item = e.target.closest('.inbox-item');
+    if (!item) return;
+    const id = item.getAttribute('data-id');
+    loadMessageFull(id);
+  });
+}
+    const btnDeleteAddress = document.getElementById('btn-delete-address');
+
+if (btnDeleteAddress) {
+  btnDeleteAddress.addEventListener('click', deleteCurrentAddress);
+}
+
+
 
     // Restore previous session if available
     const existingAddress = sessionStorage.getItem('templio_address');
