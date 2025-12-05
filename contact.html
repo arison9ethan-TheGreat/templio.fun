@@ -786,6 +786,14 @@
   <script>
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
+    // Always start at top on load/refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+});
+
 
     const emailInput = document.getElementById('temp-email');
     const btnGenerate = document.getElementById('btn-generate');
