@@ -1010,38 +1010,56 @@ function startAutoRefreshInbox() {
 
 
 
-    btnGenerate.addEventListener('click', createTempAccount);
-    btnOpenInbox.addEventListener('click', loadMessages);
-    btnRefreshInbox.addEventListener('click', loadMessages);
-    btnOpenInboxTop.addEventListener('click', loadMessages);
-    btnRefreshInboxTop.addEventListener('click', loadMessages);
+    if (btnGenerate) {
+  btnGenerate.addEventListener('click', createTempAccount);
+}
 
-    btnCopy.addEventListener('click', () => {
-      if (!emailInput.value || emailInput.value.startsWith('Click')) return;
-      navigator.clipboard.writeText(emailInput.value).then(() => {
-        btnCopy.classList.add('copied');
-        btnCopy.textContent = 'Copied!';
-        setTimeout(() => {
-          btnCopy.classList.remove('copied');
-          btnCopy.textContent = 'Copy';
-        }, 1600);
-      });
-    });
+if (btnOpenInbox) {
+  btnOpenInbox.addEventListener('click', loadMessages);
+}
 
-    // Inbox click handling (view + delete)
-    inboxList.addEventListener('click', (e) => {
-      const deleteBtn = e.target.closest('.inbox-delete-btn');
-      if (deleteBtn) {
-        const id = deleteBtn.getAttribute('data-id');
-        deleteMessage(id);
-        e.stopPropagation();
-        return;
-      }
-      const item = e.target.closest('.inbox-item');
-      if (!item) return;
-      const id = item.getAttribute('data-id');
-      loadMessageFull(id);
+if (btnRefreshInbox) {
+  btnRefreshInbox.addEventListener('click', loadMessages);
+}
+
+if (btnOpenInboxTop) {
+  btnOpenInboxTop.addEventListener('click', loadMessages);
+}
+
+if (btnRefreshInboxTop) {
+  btnRefreshInboxTop.addEventListener('click', loadMessages);
+}
+
+if (btnCopy) {
+  btnCopy.addEventListener('click', () => {
+    if (!emailInput.value || emailInput.value.startsWith('Click')) return;
+    navigator.clipboard.writeText(emailInput.value).then(() => {
+      btnCopy.classList.add('copied');
+      btnCopy.textContent = 'Copied!';
+      setTimeout(() => {
+        btnCopy.classList.remove('copied');
+        btnCopy.textContent = 'Copy';
+      }, 1600);
     });
+  });
+}
+
+if (inboxList) {
+  inboxList.addEventListener('click', (e) => {
+    const deleteBtn = e.target.closest('.inbox-delete-btn');
+    if (deleteBtn) {
+      const id = deleteBtn.getAttribute('data-id');
+      deleteMessage(id);
+      e.stopPropagation();
+      return;
+    }
+    const item = e.target.closest('.inbox-item');
+    if (!item) return;
+    const id = item.getAttribute('data-id');
+    loadMessageFull(id);
+  });
+}
+
 
     // Restore previous session if available
     const existingAddress = sessionStorage.getItem('templio_address');
