@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="monetag" content="e89f923c4a0c670192f8526a54a00ce0">
+  <meta charset="UTF-8" />
+  <title>Templio – Free Temporary Email for Safer Signups</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Templio – An inbox for a moment. Generate free temporary email addresses for quick, safe signups and spam-free browsing. No registration, no cost." />
+  <!-- Canonical & robots -->
+<link rel="canonical" href="https://templio.fun/terms.html">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+  <!-- Favicon & logo (you will upload these to /assets/) -->
+  <link rel="apple-touch-icon" href="assets/templio-logo.png">
+  <link rel="icon" type="image/png" href="assets/favicon-64.png">
+
+
+  <!-- Open Graph basic -->
+  <meta property="og:title" content="Templio – Free Temporary Email" />
+  <meta property="og:description" content="Templio – An Inbox for a Moment. Generate disposable email addresses in seconds to protect your real inbox from spam." />
+  <meta property="og:image" content="https://templio.fun/assets/templio-logo.png" />
+  <meta property="og:url" content="https://templio.fun/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root {
+      --bg-gradient-start: #050816;
+      --bg-gradient-end: #06182f;
+      --accent: #48b2ff;
+      --accent-soft: rgba(72, 178, 255, 0.25);
+      --glass-bg: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.22);
+      --text-main: #f8fbff;
+      --text-muted: #9eb3d8;
+      --success: #48e0a4;
+      --danger: #ff6b81;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #12274f 0, transparent 55%),
+                  radial-gradient(circle at bottom right, #062b35 0, transparent 50%),
+                  linear-gradient(145deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+      z-index: -1;
+    }
+
+    header {
+     max-width: 1120px;
+     margin: 18px auto 0;
+     padding: 0 18px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between; /* left and right separation */
+     gap: 20px;
+    }
+
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+     }
+
+
+    .logo-wrap img {
+      width: 78px;       /* Bigger size */
+      height: 78px;      /* Bigger size */
+      border-radius: 20px;
+      box-shadow: 0 0 26px rgba(0,0,0,0.6);
+      object-fit: contain;
+      background: rgba(0,0,0,0.20);
+    }
+
+
+    .logo-text-main {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+
+    .logo-text-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    nav {
+      display: flex;
+      gap: 14px;
+      font-size: 0.86rem;
+      flex-wrap: wrap;
+      justify-content: flex-end; /* forces nav menu to right */
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transition: width 0.18s ease-out;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.03);
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 18px 40px;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 880px) {
+      header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+      }
+      main {
+        padding-top: 26px;
+      }
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: 26px;
+      border: 1px solid var(--glass-border);
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 48%),
+                  radial-gradient(circle at bottom right, rgba(32, 207, 255, 0.12), transparent 55%),
+                  var(--glass-bg);
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      padding: 22px 22px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        130deg,
+        rgba(255,255,255,0.08),
+        transparent 52%,
+        rgba(31,171,255,0.08)
+      );
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: rgba(15, 122, 205, 0.28);
+      border: 1px solid rgba(149, 235, 255, 0.4);
+      color: var(--text-main);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px rgba(72, 224, 164, 0.9);
+    }
+
+    .hero-title {
+      margin-top: 14px;
+      font-size: clamp(1.8rem, 3vw, 2.25rem);
+      line-height: 1.15;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(120deg, #7be9ff, #fff4c7);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 420px;
+    }
+
+    .hero-cta {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(120deg, var(--accent), #7af5c9);
+      color: #020816;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 22px rgba(5, 188, 235, 0.45);
+    }
+
+    .btn-outline {
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.02);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot-soft {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      box-shadow: 0 0 12px rgba(72, 178, 255, 0.8);
+    }
+
+    /* Generator card */
+    .generator-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .field-label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .field-input {
+      flex: 1;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(1, 7, 22, 0.52);
+      padding: 8px 10px;
+      color: var(--text-main);
+      font-size: 0.86rem;
+      outline: none;
+    }
+
+    .field-input[readonly] {
+      cursor: default;
+    }
+
+    .copy-btn {
+      min-width: 72px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(72, 178, 255, 0.14);
+      color: #dff2ff;
+      font-size: 0.8rem;
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    .copy-btn.copied {
+      background: rgba(72, 224, 164, 0.16);
+      color: var(--success);
+    }
+
+    .status-text {
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .status-text strong {
+      color: #e8faff;
+    }
+
+    .sep {
+      border-top: 1px dashed rgba(255,255,255,0.16);
+      margin: 12px 0 10px;
+    }
+
+    .inbox-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+      color: var(--text-muted);
+    }
+
+    .badge-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 2px 8px;
+      font-size: 0.72rem;
+    }
+
+    .inbox-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-size: 0.75rem;
+    }
+
+    .inbox-actions button {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.03);
+      padding: 4px 10px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .inbox-list {
+      max-height: 190px;
+      overflow: auto;
+      scrollbar-width: thin;
+      margin-top: 4px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(2, 8, 22, 0.7);
+    }
+
+    .inbox-item {
+      padding: 10px 10px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .inbox-item:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .inbox-item-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .inbox-item-subject {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .inbox-item-date {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .inbox-item-from {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .inbox-item-preview {
+      font-size: 0.74rem;
+      color: #c3d5ff;
+    }
+
+    .inbox-delete-btn {
+      margin-top: 6px;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.02);
+      color: var(--danger);
+      padding: 3px 8px;
+      cursor: pointer;
+    }
+
+    .inbox-empty {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 16px 14px;
+      text-align: center;
+    }
+
+    .inbox-viewer {
+      margin-top: 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(3, 10, 26, 0.9);
+      padding: 10px 12px;
+      font-size: 0.78rem;
+      max-height: 210px;
+      overflow: auto;
+    }
+
+    .viewer-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .viewer-subject {
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+
+    .viewer-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .viewer-body {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      white-space: pre-wrap;
+      color: #e5eeff;
+    }
+
+    .info-line {
+      font-size: 0.72rem;
+      margin-top: 10px;
+      color: var(--text-muted);
+    }
+
+    .info-line strong {
+      color: #e9f6ff;
+    }
+
+    /* Right column: ads + support + how it works */
+    .card-small-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .ad-slot {
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,0.26);
+      background: rgba(1, 7, 23, 0.6);
+      padding: 10px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .support-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .support-text strong {
+      color: #eaf7ff;
+    }
+
+    .support-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: linear-gradient(120deg, rgba(72,178,255,0.16), rgba(122,245,201,0.1));
+      font-size: 0.82rem;
+      color: var(--text-main);
+    }
+
+    .mini-note {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .mini-note a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Push popup placeholder */
+    .push-popup {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      max-width: 260px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(5, 12, 35, 0.95);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      padding: 12px 13px 11px;
+      font-size: 0.78rem;
+      color: var(--text-main);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.6);
+      display: none;
+      z-index: 50;
+    }
+
+    .push-popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .push-popup-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .push-popup-body {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .push-popup-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .push-btn-allow,
+    .push-btn-later {
+      border-radius: 999px;
+      border: none;
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .push-btn-allow {
+      background: linear-gradient(120deg, var(--accent), #7af5c9);
+      color: #020816;
+      font-weight: 600;
+    }
+
+    .push-btn-later {
+      background: rgba(255,255,255,0.06);
+      color: var(--text-muted);
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 12px 18px 18px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 6px;
+    }
+  </style>
+  <!-- Structured data: WebSite + Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Templio",
+  "url": "https://templio.fun",
+  "description": "Templio – An Inbox for a Moment. Generate free temporary email addresses for quick, safe signups and spam-free browsing.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://templio.fun/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Templio",
+    "url": "https://templio.fun",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://templio.fun/assets/templio-logo.png"
+    }
+  }
+}
+</script>
+
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header>
+    <div class="logo-wrap">
+      <img src="assets/templio-logo.png" alt="Templio logo">
+      <div>
+        <div class="logo-text-main">Templio</div>
+        <div class="logo-text-sub">An Inbox for a Moment.</div>
+      </div>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="generate.html">Generate Email</a>
+      <a href="inbox.html">Inbox Viewer</a>
+      <a href="/blog/index.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+    <a href="contact.html" class="btn-ghost">Feedback</a>
+  </header>
+
+  <main>
+  <div class="shell">
+    <section class="card">
+      <div class="card-inner">
+        <h1 class="hero-title">Terms & Conditions</h1>
+        <p class="hero-text">Last updated: 2025</p>
+
+        <div class="sep"></div>
+
+        <h2 class="generator-title">1. Use of Service</h2>
+        <p class="mini-note">
+          Templio provides disposable email addresses for temporary usage. By using the site,
+          you agree not to use the service for harmful, abusive, or illegal activity.
+        </p>
+
+        <h2 class="generator-title">2. No Warranty</h2>
+        <p class="mini-note">
+          The service is provided “as is”. We do not guarantee message delivery or availability.
+        </p>
+
+        <h2 class="generator-title">3. Forbidden Uses</h2>
+        <ul style="list-style:none; color:var(--text-muted); padding-left:0;">
+          <li>• Banking, financial services</li>
+          <li>• Identity verification or recovery</li>
+          <li>• Sensitive or confidential information</li>
+          <li>• Fraudulent or illegal activity</li>
+        </ul>
+
+        <h2 class="generator-title">4. Temporary Nature</h2>
+        <p class="mini-note">
+          Emails may be deleted automatically. Users must save anything important externally.
+        </p>
+
+        <h2 class="generator-title">5. Ads & Partnerships</h2>
+        <p class="mini-note">
+          We use Monetag ads. Clicking or interacting with advertisements is at your discretion.
+        </p>
+
+        <h2 class="generator-title">6. Changes to Terms</h2>
+        <p class="mini-note">
+          We may update these terms periodically. Continued use means acceptance of the changes.
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+
+
+  <footer>
+    © <span id="year"></span> Templio •
+    <a href="/">Home</a> •
+    <a href="/generate.html">Generate Email</a> •
+    <a href="/inbox.html">Inbox Viewer</a> •
+    <a href="/how-it-works.html">How it works</a> •
+    <a href="/faq.html">FAQ</a> •
+    <a href="/blog/index.html">Blog</a> •
+    <a href="/privacy.html">Privacy Policy</a> •
+    <a href="/terms.html">Terms &amp; Conditions</a> •
+    <a href="/cookie.html">Cookie Policy</a> •
+    <a href="/contact.html">Contact</a>
+  </footer>
+
+  <!-- Push subscription popup placeholder -->
+  <div class="push-popup" id="push-popup">
+    <div class="push-popup-header">
+      <div class="push-popup-title">Offers & updates?</div>
+      <button class="push-btn-later" id="push-close" aria-label="Close">×</button>
+    </div>
+    <div class="push-popup-body">
+      Allow notifications to receive occasional partner offers from Monetag and
+      important service updates from Templio. No daily spam, ever.
+    </div>
+    <div class="push-popup-actions">
+      <button class="push-btn-later" id="push-later">Maybe later</button>
+      <button class="push-btn-allow" id="push-allow">Allow</button>
+    </div>
+  </div>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const emailInput = document.getElementById('temp-email');
+    const btnGenerate = document.getElementById('btn-generate');
+    const btnOpenInbox = document.getElementById('btn-open-inbox');
+    const btnRefreshInbox = document.getElementById('btn-refresh-inbox');
+    const btnOpenInboxTop = document.getElementById('btn-open-inbox-top');
+    const btnRefreshInboxTop = document.getElementById('btn-refresh-inbox-top');
+    const btnCopy = document.getElementById('btn-copy');
+    const statusEl = document.getElementById('status');
+    const inboxList = document.getElementById('inbox-list');
+    const inboxViewer = document.getElementById('inbox-viewer');
+    const inboxCountBadge = document.getElementById('inbox-count-badge');
+
+    let mailToken = null;
+let currentMessageId = null;
+let inboxAutoRefreshTimer = null; // for auto-refresh
+function startAutoRefreshInbox() {
+  if (inboxAutoRefreshTimer) return; // already running
+
+  inboxAutoRefreshTimer = setInterval(() => {
+    const token = mailToken || sessionStorage.getItem('templio_token');
+    const address = sessionStorage.getItem('templio_address');
+    if (token && address) {
+      loadMessages();
+    }
+  }, 10000); // every 10 seconds
+}
+
+
+    async function createTempAccount() {
+      statusEl.innerHTML = '<strong>Status:</strong> Generating a fresh address for you…';
+
+      try {
+        const domainsRes = await fetch('https://api.mail.tm/domains');
+        const domains = await domainsRes.json();
+        const domain = domains['hydra:member'][0].domain;
+
+        const local = 'templio' + Math.random().toString(36).slice(2, 9);
+        const address = `${local}@${domain}`;
+        const password = Math.random().toString(36).slice(2, 12);
+
+        await fetch('https://api.mail.tm/accounts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address, password })
+        });
+
+        const tokenRes = await fetch('https://api.mail.tm/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address, password })
+        });
+        const tokenJson = await tokenRes.json();
+        mailToken = tokenJson.token;
+
+        sessionStorage.setItem('templio_token', mailToken);
+        sessionStorage.setItem('templio_address', address);
+
+        emailInput.value = address;
+        statusEl.innerHTML = '<strong>Status:</strong> New address ready. Copy it and use it for your next signup.';
+        inboxList.innerHTML = '<div class="inbox-empty">No messages yet. After you sign up somewhere, click “Open inbox”.</div>';
+        inboxViewer.textContent = 'Select a message above to read its full content here.';
+        inboxCountBadge.textContent = '0 messages';
+      } catch (err) {
+        console.error(err);
+        statusEl.innerHTML = '<strong>Status:</strong> Something went wrong while generating your address. Please try again.';
+      }
+    }
+
+    async function loadMessages() {
+      const token = mailToken || sessionStorage.getItem('templio_token');
+      const address = sessionStorage.getItem('templio_address');
+      if (!token || !address) {
+        statusEl.innerHTML = '<strong>Status:</strong> Generate an address first, then open the inbox.';
+        return;
+      }
+
+      statusEl.innerHTML = '<strong>Status:</strong> Checking inbox…';
+      emailInput.value = address;
+
+      try {
+        const res = await fetch('https://api.mail.tm/messages', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const items = data['hydra:member'] || [];
+        inboxCountBadge.textContent = items.length + (items.length === 1 ? ' message' : ' messages');
+
+        if (!items.length) {
+          inboxList.innerHTML = '<div class="inbox-empty">Still empty. If you just signed up somewhere, wait a few seconds and refresh.</div>';
+          statusEl.innerHTML = '<strong>Status:</strong> Inbox updated. No messages yet.';
+          return;
+        }
+
+        inboxList.innerHTML = items.map(msg => {
+          const from = (msg.from && msg.from.address) || 'Unknown sender';
+          const subject = msg.subject || '(no subject)';
+          const preview = (msg.intro || '').slice(0, 80);
+          const date = new Date(msg.createdAt).toLocaleString();
+          return `
+            <div class="inbox-item" data-id="${msg.id}">
+              <div class="inbox-item-header">
+                <div class="inbox-item-subject">${subject}</div>
+                <div class="inbox-item-date">${date}</div>
+              </div>
+              <div class="inbox-item-from">From: ${from}</div>
+              <div class="inbox-item-preview">${preview}</div>
+              <button class="inbox-delete-btn" data-id="${msg.id}">Delete</button>
+            </div>
+          `;
+        }).join('');
+
+        statusEl.innerHTML = '<strong>Status:</strong> Inbox updated. Tap any message to read it.';
+        startAutoRefreshInbox();
+
+      } catch (err) {
+        console.error(err);
+        statusEl.innerHTML = '<strong>Status:</strong> Could not refresh inbox. Please try again in a moment.';
+      }
+    }
+
+    async function loadMessageFull(id) {
+      const token = mailToken || sessionStorage.getItem('templio_token');
+      if (!token) return;
+
+      inboxViewer.textContent = 'Loading message…';
+      currentMessageId = id;
+
+
+      try {
+        const res = await fetch(`https://api.mail.tm/messages/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const msg = await res.json();
+        const from = (msg.from && msg.from.address) || 'Unknown sender';
+        const to = (msg.to && msg.to[0] && msg.to[0].address) || 'Unknown';
+        const subject = msg.subject || '(no subject)';
+        const date = new Date(msg.createdAt).toLocaleString();
+        const body = msg.text || msg.intro || '(No body content)';
+
+        inboxViewer.innerHTML = `
+          <div class="viewer-header">
+            <div class="viewer-subject">${subject}</div>
+            <div class="viewer-meta">${date}</div>
+          </div>
+          <div class="viewer-meta">From: ${from}</div>
+          <div class="viewer-meta">To: ${to}</div>
+          <div class="viewer-body" id="viewer-body"></div>
+        `;
+        const bodyEl = document.getElementById('viewer-body');
+        bodyEl.textContent = body; // safe text (no HTML execution)
+      } catch (err) {
+        console.error(err);
+        inboxViewer.textContent = 'Could not load this message. Please try again.';
+      }
+    }
+
+    async function deleteMessage(id) {
+  const token = mailToken || sessionStorage.getItem('templio_token');
+  if (!token) return;
+
+  try {
+    await fetch(`https://api.mail.tm/messages/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    // Always reset viewer after delete
+    inboxViewer.textContent = 'Select a message above to read its full content here.';
+
+    // Reload inbox list
+    await loadMessages();
+  } catch (err) {
+    console.error(err);
+    statusEl.innerHTML = '<strong>Status:</strong> Could not delete message. Please try again.';
+  }
+}
+
+
+
+    btnGenerate.addEventListener('click', createTempAccount);
+    btnOpenInbox.addEventListener('click', loadMessages);
+    btnRefreshInbox.addEventListener('click', loadMessages);
+    btnOpenInboxTop.addEventListener('click', loadMessages);
+    btnRefreshInboxTop.addEventListener('click', loadMessages);
+
+    btnCopy.addEventListener('click', () => {
+      if (!emailInput.value || emailInput.value.startsWith('Click')) return;
+      navigator.clipboard.writeText(emailInput.value).then(() => {
+        btnCopy.classList.add('copied');
+        btnCopy.textContent = 'Copied!';
+        setTimeout(() => {
+          btnCopy.classList.remove('copied');
+          btnCopy.textContent = 'Copy';
+        }, 1600);
+      });
+    });
+
+    // Inbox click handling (view + delete)
+    inboxList.addEventListener('click', (e) => {
+      const deleteBtn = e.target.closest('.inbox-delete-btn');
+      if (deleteBtn) {
+        const id = deleteBtn.getAttribute('data-id');
+        deleteMessage(id);
+        e.stopPropagation();
+        return;
+      }
+      const item = e.target.closest('.inbox-item');
+      if (!item) return;
+      const id = item.getAttribute('data-id');
+      loadMessageFull(id);
+    });
+
+    // Restore previous session if available
+    const existingAddress = sessionStorage.getItem('templio_address');
+    if (existingAddress) {
+      emailInput.value = existingAddress;
+      mailToken = sessionStorage.getItem('templio_token');
+      statusEl.innerHTML = '<strong>Status:</strong> Restored your last session address. You can reuse it or generate a new one.';
+    }
+
+    // Simple push-popup behavior (you will replace with Monetag push script if needed)
+    const pushPopup = document.getElementById('push-popup');
+    const pushClose = document.getElementById('push-close');
+    const pushLater = document.getElementById('push-later');
+    const pushAllow = document.getElementById('push-allow');
+
+    function showPushPopup() {
+      if (localStorage.getItem('templio_push_hidden') === '1') return;
+      pushPopup.style.display = 'block';
+    }
+
+    function hidePushPopup() {
+      pushPopup.style.display = 'none';
+      localStorage.setItem('templio_push_hidden', '1');
+    }
+
+    if (pushClose) pushClose.addEventListener('click', hidePushPopup);
+    if (pushLater) pushLater.addEventListener('click', hidePushPopup);
+
+    if (pushAllow) {
+      pushAllow.addEventListener('click', () => {
+        // Here you would trigger Monetag push subscription if you enable that format.
+        hidePushPopup();
+      });
+    }
+
+    // Show push popup after a delay so it's not annoying
+    setTimeout(showPushPopup, 12000);
+  // AUTO-REFRESH INBOX EVERY 15 SECONDS IF AN ADDRESS EXISTS
+    setInterval(() => {
+      const token = sessionStorage.getItem('templio_token');
+      const address = sessionStorage.getItem('templio_address');
+
+      // Only try to refresh if user already has an address
+      if (token && address) {
+        loadMessages();
+      }
+    }, 15000); // 15000 ms = 15 seconds
+  </script>
+</body>
+</html>
