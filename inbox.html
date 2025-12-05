@@ -736,6 +736,9 @@
           <div id="status" class="status-text">
             <strong>Status:</strong> If you used Templio before in this browser, we’ll try to restore your last address.
           </div>
+          <button id="btn-delete-address" class="btn-outline" style="margin-top:10px;">
+    Delete this address &amp; start fresh
+  </button>
         </div>
 
         <div class="sep"></div>
@@ -850,6 +853,8 @@ window.addEventListener('load', () => {
     const inboxList = document.getElementById('inbox-list');
     const inboxViewer = document.getElementById('inbox-viewer');
     const inboxCountBadge = document.getElementById('inbox-count-badge');
+    const btnDeleteAddress = document.getElementById('btn-delete-address');
+
 
     let mailToken = null;
 let currentMessageId = null;
@@ -994,6 +999,30 @@ function startAutoRefreshInbox() {
         inboxViewer.textContent = 'Could not load this message. Please try again.';
       }
     }
+    function deleteCurrentAddress() {
+  // Clear token and address from session
+  sessionStorage.removeItem('templio_token');
+  sessionStorage.removeItem('templio_address');
+  mailToken = null;
+
+  // Reset UI if elements exist
+  if (emailInput) {
+    emailInput.value = 'Click “Generate new email”';
+  }
+  if (statusEl) {
+    statusEl.innerHTML = '<strong>Status:</strong> Address deleted. Generate a new one to continue.';
+  }
+  if (inboxList) {
+    inboxList.innerHTML = '<div class="inbox-empty">Inbox cleared. Generate a new email and load inbox again.</div>';
+  }
+  if (inboxViewer) {
+    inboxViewer.textContent = 'Select a message above to read its full content here.';
+  }
+  if (inboxCountBadge) {
+    inboxCountBadge.textContent = '0 messages';
+  }
+}
+
 
     async function deleteMessage(id) {
   const token = mailToken || sessionStorage.getItem('templio_token');
@@ -1037,6 +1066,10 @@ if (btnOpenInboxTop) {
 if (btnRefreshInboxTop) {
   btnRefreshInboxTop.addEventListener('click', loadMessages);
 }
+    if (btnDeleteAddress) {
+  btnDeleteAddress.addEventListener('click', deleteCurrentAddress);
+}
+
 
 if (btnCopy) {
   btnCopy.addEventListener('click', () => {
