@@ -63,7 +63,7 @@
     }
   }
   </script>
-
+<script src="https://3nbf4.com/act/files/tag.min.js?z=10280532" data-cfasync="false" async></script>
   <style>
     :root {
       --bg-gradient-start: #050816;
@@ -900,21 +900,7 @@
     <a href="/contact.html">Contact</a>
   </footer>
 
-  <!-- Push subscription popup placeholder -->
-  <div class="push-popup" id="push-popup">
-    <div class="push-popup-header">
-      <div class="push-popup-title">Offers & updates?</div>
-      <button class="push-btn-later" id="push-close" aria-label="Close">×</button>
-    </div>
-    <div class="push-popup-body">
-      Allow notifications to receive occasional partner offers from Monetag and
-      important service updates from Templio. No daily spam, ever.
-    </div>
-    <div class="push-popup-actions">
-      <button class="push-btn-later" id="push-later">Maybe later</button>
-      <button class="push-btn-allow" id="push-allow">Allow</button>
-    </div>
-  </div>
+  
 
   <script>
     // Year
@@ -1196,34 +1182,7 @@ if (btnDeleteAddress) {
       statusEl.innerHTML = '<strong>Status:</strong> Restored your last session address. You can reuse it or generate a new one.';
     }
 
-    // Simple push-popup behavior (you will replace with Monetag push script if needed)
-    const pushPopup = document.getElementById('push-popup');
-    const pushClose = document.getElementById('push-close');
-    const pushLater = document.getElementById('push-later');
-    const pushAllow = document.getElementById('push-allow');
-
-    function showPushPopup() {
-      if (localStorage.getItem('templio_push_hidden') === '1') return;
-      pushPopup.style.display = 'block';
-    }
-
-    function hidePushPopup() {
-      pushPopup.style.display = 'none';
-      localStorage.setItem('templio_push_hidden', '1');
-    }
-
-    if (pushClose) pushClose.addEventListener('click', hidePushPopup);
-    if (pushLater) pushLater.addEventListener('click', hidePushPopup);
-
-    if (pushAllow) {
-      pushAllow.addEventListener('click', () => {
-        // Here you would trigger Monetag push subscription if you enable that format.
-        hidePushPopup();
-      });
-    }
-
-    // Show push popup after a delay so it's not annoying
-    setTimeout(showPushPopup, 12000);
+    
   // AUTO-REFRESH INBOX EVERY 15 SECONDS IF AN ADDRESS EXISTS
     setInterval(() => {
       const token = sessionStorage.getItem('templio_token');
@@ -1235,6 +1194,6 @@ if (btnDeleteAddress) {
       }
     }, 15000); // 15000 ms = 15 seconds
   </script>
-  <script src="https://3nbf4.com/act/files/tag.min.js?z=10280532" data-cfasync="false" async></script>
+  
 </body>
 </html>
