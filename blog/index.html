@@ -668,6 +668,22 @@
     .blog-item .mini-note {
       line-height: 1.5;
     }
+    
+    .blog-illustration-box {
+  display: flex;
+  justify-content: center;   /* center left ↔ right */
+  align-items: center;        /* center up ↕ down */
+  width: 100%;
+  height: 100%;
+  padding: 10px 0;
+}
+
+.blog-illustration-box img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 14px;        /* optional for smooth edges */
+}
+
 
   </style>
   <!-- Structured data: WebSite + Organization -->
@@ -895,7 +911,7 @@
     <aside class="card">
       <div class="card-inner">
 
-    <div class="blog-aside-visual">
+    <div class="templio-blog-illustration">
       <img src="assets/templio-blog-illustration.png"
            alt="Illustration of a clean temporary email inbox">
     </div>
