@@ -669,23 +669,6 @@
       line-height: 1.5;
     }
     
-    /* Center the blog illustration inside the right card */
-.blog-aside .card-inner {
-  display: flex;
-  justify-content: center;   /* center left-right */
-  align-items: center;       /* center up-down */
-  min-height: 260px;         /* give it some height so vertical centering is visible */
-}
-
-.blog-illustration {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 16px;       /* optional: smooth corners */
-}
-
-
-
   </style>
   <!-- Structured data: WebSite + Organization -->
 <script type="application/ld+json">
@@ -912,9 +895,13 @@
     <aside class="card">
       <div class="card-inner">
 
-    <div class="card blog-aside">
+    <div class="blog-aside-visual">
       <img src="assets/templio-blog-illustration.png"
            alt="Illustration of a clean temporary email inbox">
+      
+      <p class="mini-note" style="margin-top:20px;">
+        ❤️ Thanks for Using Templio ❤️
+      </p>
     </div>
       </div>
     </aside>
