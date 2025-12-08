@@ -654,6 +654,34 @@
       text-decoration: none;
       margin: 0 6px;
     }
+
+    /* FAQ Aside Styling */
+.faq-aside .card-inner {
+  text-align: center;
+  padding: 24px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px; 
+}
+
+.faq-quote-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  color: var(--text-main);
+}
+
+.faq-quote-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 260px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
   </style>
   <!-- Structured data: WebSite + Organization -->
 <script type="application/ld+json">
@@ -775,15 +803,19 @@
       </div>
     </section>
 
-    <aside class="card">
-      <div class="card-inner" style="text-align:center;">
-        <div class="card-small-title">❤️ A little reminder ❤️</div>
-        <p class="mini-note" style="margin-top:10px;">
-      “Your real inbox deserves a bit of peace —
+    <aside class="card faq-aside">
+  <div class="card-inner">
+
+    <div class="faq-quote-title">❤️ A little reminder ❤️</div>
+
+    <p class="faq-quote-text">
+      “Your real inbox deserves a bit of peace —  
       let temporary email handle the noisy part.”
     </p>
+
   </div>
 </aside>
+
   </div>
 </main>
 
