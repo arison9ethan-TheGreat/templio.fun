@@ -677,6 +677,22 @@
       text-decoration: none;
       margin: 0 6px;
     }
+
+    .thankyou-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px; /* keeps it centered nicely */
+      text-align: center;
+    }
+
+   .thankyou-text {
+      font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 28px;           /* BIG and clear */
+      font-weight: 600;          /* professional weight */
+      letter-spacing: 0.4px;
+      color: #1f2937;            /* modern dark gray */
+    }
   </style>
   <!-- Structured data: WebSite + Organization -->
 <script type="application/ld+json">
@@ -763,8 +779,8 @@
 
     <!-- Right column: ad slot (same layout) -->
     <aside class="card">
-  <div class="card-inner" style="text-align:center;">
-    <div class="card-small-title">❤️ Thank You! ❤️</div>
+  <div class="card-inner thankyou-card">
+    <div class="thankyou-text">❤️ Thank You! ❤️</div>
 
     
   </div>
