@@ -972,160 +972,7 @@ function startAutoRefreshInbox() {
 }
 
 
-    async function createTempAccount() {
-      statusEl.innerHTML = '<strong>Status:</strong> Generating a fresh address for you…';
-
-      try {
-        const domainsRes = await fetch('https://api.mail.tm/domains');
-        const domains = await domainsRes.json();
-        const domain = domains['hydra:member'][0].domain;
-
-        const local = 'templio' + Math.random().toString(36).slice(2, 9);
-        const address = `${local}@${domain}`;
-        const password = Math.random().toString(36).slice(2, 12);
-
-        await fetch('https://api.mail.tm/accounts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ address, password })
-        });
-
-        const tokenRes = await fetch('https://api.mail.tm/token', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ address, password })
-        });
-        const tokenJson = await tokenRes.json();
-        mailToken = tokenJson.token;
-
-        sessionStorage.setItem('templio_token', mailToken);
-        sessionStorage.setItem('templio_address', address);
-
-        emailInput.value = address;
-        statusEl.innerHTML = '<strong>Status:</strong> New address ready. Copy it and use it for your next signup.';
-        inboxList.innerHTML = '<div class="inbox-empty">No messages yet. After you sign up somewhere, click “Open inbox”.</div>';
-        inboxViewer.textContent = 'Select a message above to read its full content here.';
-        inboxCountBadge.textContent = '0 messages';
-      } catch (err) {
-        console.error(err);
-        statusEl.innerHTML = '<strong>Status:</strong> Something went wrong while generating your address. Please try again.';
-      }
-    }
-
-    async function loadMessages() {
-      const token = mailToken || sessionStorage.getItem('templio_token');
-      const address = sessionStorage.getItem('templio_address');
-      if (!token || !address) {
-        statusEl.innerHTML = '<strong>Status:</strong> Generate an address first, then open the inbox.';
-        return;
-      }
-
-      statusEl.innerHTML = '<strong>Status:</strong> Checking inbox…';
-      emailInput.value = address;
-
-      try {
-        const res = await fetch('https://api.mail.tm/messages', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await res.json();
-        const items = data['hydra:member'] || [];
-        inboxCountBadge.textContent = items.length + (items.length === 1 ? ' message' : ' messages');
-
-        if (!items.length) {
-          inboxList.innerHTML = '<div class="inbox-empty">Still empty. If you just signed up somewhere, wait a few seconds and refresh.</div>';
-          statusEl.innerHTML = '<strong>Status:</strong> Inbox updated. No messages yet.';
-          return;
-        }
-
-        inboxList.innerHTML = items.map(msg => {
-          const from = (msg.from && msg.from.address) || 'Unknown sender';
-          const subject = msg.subject || '(no subject)';
-          const preview = (msg.intro || '').slice(0, 80);
-          const date = new Date(msg.createdAt).toLocaleString();
-          return `
-            <div class="inbox-item" data-id="${msg.id}">
-              <div class="inbox-item-header">
-                <div class="inbox-item-subject">${subject}</div>
-                <div class="inbox-item-date">${date}</div>
-              </div>
-              <div class="inbox-item-from">From: ${from}</div>
-              <div class="inbox-item-preview">${preview}</div>
-              <button class="inbox-delete-btn" data-id="${msg.id}">Delete</button>
-            </div>
-          `;
-        }).join('');
-
-        statusEl.innerHTML = '<strong>Status:</strong> Inbox updated. Tap any message to read it.';
-        startAutoRefreshInbox();
-
-      } catch (err) {
-        console.error(err);
-        statusEl.innerHTML = '<strong>Status:</strong> Could not refresh inbox. Please try again in a moment.';
-      }
-    }
-
-    async function loadMessageFull(id) {
-      const token = mailToken || sessionStorage.getItem('templio_token');
-      if (!token) return;
-
-      inboxViewer.textContent = 'Loading message…';
-      currentMessageId = id;
-
-
-      try {
-        const res = await fetch(`https://api.mail.tm/messages/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const msg = await res.json();
-        const from = (msg.from && msg.from.address) || 'Unknown sender';
-        const to = (msg.to && msg.to[0] && msg.to[0].address) || 'Unknown';
-        const subject = msg.subject || '(no subject)';
-        const date = new Date(msg.createdAt).toLocaleString();
-        const body = msg.text || msg.intro || '(No body content)';
-
-        inboxViewer.innerHTML = `
-          <div class="viewer-header">
-            <div class="viewer-subject">${subject}</div>
-            <div class="viewer-meta">${date}</div>
-          </div>
-          <div class="viewer-meta">From: ${from}</div>
-          <div class="viewer-meta">To: ${to}</div>
-          <div class="viewer-body" id="viewer-body"></div>
-        `;
-        const bodyEl = document.getElementById('viewer-body');
-        bodyEl.textContent = body; // safe text (no HTML execution)
-      } catch (err) {
-        console.error(err);
-        inboxViewer.textContent = 'Could not load this message. Please try again.';
-      }
-    }
-
-    async function deleteMessage(id) {
-  const token = mailToken || sessionStorage.getItem('templio_token');
-  if (!token) return;
-
-  try {
-    await fetch(`https://api.mail.tm/messages/${id}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    // Always reset viewer after delete
-    inboxViewer.textContent = 'Select a message above to read its full content here.';
-
-    // Reload inbox list
-    await loadMessages();
-  } catch (err) {
-    console.error(err);
-    statusEl.innerHTML = '<strong>Status:</strong> Could not delete message. Please try again.';
-  }
-}
-    function deleteCurrentAddress() {
-  // Clear token and address from session
-  sessionStorage.removeItem('templio_token');
-  sessionStorage.removeItem('templio_address');
-  mailToken = null;
-
+    
   // Reset UI if elements exist
   if (emailInput) {
     emailInput.value = 'Click “Generate new email”';
@@ -1144,7 +991,201 @@ function startAutoRefreshInbox() {
   }
 }
 
+async function createTempAccount() {
+  statusEl.innerHTML =
+    '<strong>Status:</strong> Checking Mail.tm...';
 
+  try {
+
+    // STEP 1 — Check available Mail.tm domains
+    console.log('=== TEMPLIO MAIL.TM DEBUG ===');
+    console.log('1. Checking /domains...');
+
+    const domainsRes = await fetch('https://api.mail.tm/domains');
+
+    console.log('Domains HTTP status:', domainsRes.status);
+    console.log('Domains response OK:', domainsRes.ok);
+
+    const domainsText = await domainsRes.text();
+
+    console.log('Domains raw response:', domainsText);
+
+    if (!domainsRes.ok) {
+      throw new Error(
+        `MAIL.TM DOMAINS ERROR: HTTP ${domainsRes.status} - ${domainsText}`
+      );
+    }
+
+    const domains = JSON.parse(domainsText);
+
+    console.log('Domains parsed:', domains);
+
+    if (
+      !domains['hydra:member'] ||
+      !domains['hydra:member'].length
+    ) {
+      throw new Error('MAIL.TM ERROR: No available domains returned.');
+    }
+
+    const domain = domains['hydra:member'][0].domain;
+
+    console.log('Selected domain:', domain);
+
+
+    // STEP 2 — Create temporary account
+    const local =
+      'templio' +
+      Math.random().toString(36).slice(2, 9);
+
+    const address = `${local}@${domain}`;
+
+    const password =
+      Math.random().toString(36).slice(2, 12);
+
+    console.log('2. Creating account...');
+    console.log('Address:', address);
+
+    const accountRes = await fetch(
+      'https://api.mail.tm/accounts',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          address: address,
+          password: password
+        })
+      }
+    );
+
+    console.log(
+      'Account HTTP status:',
+      accountRes.status
+    );
+
+    console.log(
+      'Account response OK:',
+      accountRes.ok
+    );
+
+    const accountText = await accountRes.text();
+
+    console.log(
+      'Account raw response:',
+      accountText
+    );
+
+    if (!accountRes.ok) {
+      throw new Error(
+        `MAIL.TM ACCOUNT ERROR: HTTP ${accountRes.status} - ${accountText}`
+      );
+    }
+
+
+    // STEP 3 — Get authentication token
+    console.log('3. Requesting token...');
+
+    const tokenRes = await fetch(
+      'https://api.mail.tm/token',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          address: address,
+          password: password
+        })
+      }
+    );
+
+    console.log(
+      'Token HTTP status:',
+      tokenRes.status
+    );
+
+    console.log(
+      'Token response OK:',
+      tokenRes.ok
+    );
+
+    const tokenText = await tokenRes.text();
+
+    console.log(
+      'Token raw response:',
+      tokenText
+    );
+
+    if (!tokenRes.ok) {
+      throw new Error(
+        `MAIL.TM TOKEN ERROR: HTTP ${tokenRes.status} - ${tokenText}`
+      );
+    }
+
+    const tokenJson = JSON.parse(tokenText);
+
+    console.log(
+      'Token received:',
+      tokenJson.token ? 'YES' : 'NO'
+    );
+
+    if (!tokenJson.token) {
+      throw new Error(
+        'MAIL.TM ERROR: Token was not returned.'
+      );
+    }
+
+    mailToken = tokenJson.token;
+
+
+    // STEP 4 — Save session
+    sessionStorage.setItem(
+      'templio_token',
+      mailToken
+    );
+
+    sessionStorage.setItem(
+      'templio_address',
+      address
+    );
+
+
+    // STEP 5 — Update UI
+    emailInput.value = address;
+
+    statusEl.innerHTML =
+      '<strong>Status:</strong> New address ready.';
+
+    inboxList.innerHTML =
+      '<div class="inbox-empty">' +
+      'No messages yet. After you sign up somewhere, ' +
+      'click “Open inbox”.' +
+      '</div>';
+
+    inboxViewer.textContent =
+      'Select a message above to read its full content here.';
+
+    inboxCountBadge.textContent =
+      '0 messages';
+
+    console.log('=== TEMPLIO MAIL.TM SUCCESS ===');
+
+  } catch (err) {
+
+    console.error(
+      '=== TEMPLIO MAIL.TM FAILED ==='
+    );
+
+    console.error('Error object:', err);
+    console.error('Error message:', err.message);
+
+    statusEl.innerHTML =
+      '<strong>Status:</strong> Mail.tm error. ' +
+      'Open browser console (F12) to see details.';
+
+  }
+}
 
 
     if (btnGenerate) {
